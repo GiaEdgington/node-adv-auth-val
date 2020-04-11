@@ -24,7 +24,8 @@ exports.getLogin = (req, res, next) => {
       });
   };
 
-  exports.getSignup = (req, res, next) => { let message =req.flash('error');
+  exports.getSignup = (req, res, next) => { 
+    let message =req.flash('error');
     if (message.length > 0) {
         message = message[0];
     } else {
@@ -114,3 +115,17 @@ exports.postLogout = (req, res, next) => {
       res.redirect('/');
   });
 };
+
+exports.getReset = (req, res, next) => {
+    let message =req.flash('error');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
+    res.render('auth/reset', {
+        path: '/reset',
+        pageTitle: 'Reset Password',
+        errorMessage: message
+    });
+}
