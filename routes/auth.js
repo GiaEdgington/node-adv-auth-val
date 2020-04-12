@@ -15,7 +15,14 @@ router.post(
     '/signup', 
     check('email')
     .isEmail()
-    .withMessage('Please enter a valid email'), 
+    .withMessage('Please enter a valid email')
+    //add custom validation
+    .custom((value, {req}) => {
+        if(value === 'me@test.com') {
+            throw new Error('This email address is not Ok.')
+        }
+        return true;
+    }),
     authController.postSignup);
 
 router.post('/logout', authController.postLogout);
