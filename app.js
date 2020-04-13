@@ -43,6 +43,13 @@ app.use(csrfProtection);
 app.use(flash());
 
 app.use((req, res, next) => {
+  //local vars that are passed to views
+  res.locals.isAuthenticated= req.session.isLoggedIn;
+  res.locals.csrfToken= req.csrfToken();
+  next();
+});
+
+app.use((req, res, next) => {
   if(!req.session.user) {
     return next();
   }
@@ -55,15 +62,8 @@ app.use((req, res, next) => {
       next();
   })
   .catch(err => {
-    throw new Error(err);
+    next(new Error(err));
   });
-});
-
-app.use((req, res, next) => {
-  //local vars that are passed to views
-  res.locals.isAuthenticated= req.session.isLoggedIn;
-  res.locals.csrfToken= req.csrfToken();
-  next();
 });
 
 app.use('/admin', adminRoutes);
@@ -77,7 +77,11 @@ app.use(errorController.get404);
 app.use((error, req, res, next) => {
   //can render any page here
   //res.status(error.httpStatusCode).render(...)
-  res.redirect('/500');
+  res.status(500).render('500', { 
+    pageTitle: 'ERROR', 
+    path: '/500',
+    isAuthenticated: req.session.isLoggedIn
+  });
 });
 
 mongoose.connect(MONGODB_URI)
