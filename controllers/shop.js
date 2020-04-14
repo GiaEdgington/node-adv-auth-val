@@ -153,7 +153,13 @@ exports.getInvoice = (req, res, next) => {
   fs.readFile(invoicePath, (err, data) => {
     if(err) {
       return next(err);
-    } 
-    res.send(data);
-  })
+    }
+    //setting not working
+    res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader(
+          'Content-Disposition',
+          'inline; filename="' + invoiceName + '"'
+        );
+        res.send(data);
+  });
 }
