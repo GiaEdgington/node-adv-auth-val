@@ -1,0 +1,8 @@
+{
+    "env": {
+        "MONGO_USER": "gia-edgington",
+        "MONGO_PASSWORD": "password_db",
+        "MONGO_DEFAULT_DATABASE": "shop",
+        "STRIPE_KEY)": "sk_test_E5r9dfqHsR9b9aWno0l0FUwY00XO4hcrQf"
+    }
+}
